@@ -93,6 +93,7 @@ def generate_report():
     )
 
     total_events = log_info["login success"] + log_info["login failed"]
+    failure_rate = (log_info["login failed"] / total_events) * 100
 
     report += "--- SECURITY LOG ANALYSIS REPORT ---\n\n"
 
@@ -101,6 +102,7 @@ def generate_report():
     report += f"Successful Logins: {log_info['login success']}\n"
     report += f"Failed Logins: {log_info['login failed']}\n"
     report += f"Total Events: {total_events}\n"
+    report += f"Login Failure Rate: {failure_rate:.1f}%\n"
     report += f"Security Alerts: {len(alerts)}\n\n"
 
     report += "ALERT SEVERITY\n"

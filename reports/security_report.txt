@@ -5,6 +5,7 @@ SUMMARY
 Successful Logins: 11
 Failed Logins: 35
 Total Events: 46
+Login Failure Rate: 76.1%
 Security Alerts: 6
 
 ALERT SEVERITY
