@@ -1,0 +1,57 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+
+SUMMARY
+-------
+Successful Logins: 11
+Failed Logins: 35
+Total Events: 46
+Security Alerts: 6
+
+ALERT SEVERITY
+--------------
+Critical: 3
+High: 3
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+[CRITICAL] BRUTE FORCE DETECTED
+Source IP: 192.168.1.101
+Failed Attempts: 11
+Time Window: 40 seconds
+First Attempt: 11:12:01
+Last Attempt: 11:12:41
+
+[CRITICAL] BRUTE FORCE DETECTED
+Source IP: 192.168.1.150
+Failed Attempts: 11
+Time Window: 30 seconds
+First Attempt: 11:30:02
+Last Attempt: 11:30:32
+
+[CRITICAL] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.150
+Accounts Targeted: 11
+Accounts: admin, daniel, david, emily, jack, james, michael, olivia, sarah, sophie, tom
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.67
+Failed Attempts: 6
+Time Window: 20 seconds
+First Attempt: 09:17:42
+Last Attempt: 09:18:02
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.88
+Failed Attempts: 5
+Time Window: 17 seconds
+First Attempt: 09:44:08
+Last Attempt: 09:44:25
+
+[HIGH] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.88
+Accounts Targeted: 5
+Accounts: admin, emily, jack, sarah, tom
+
