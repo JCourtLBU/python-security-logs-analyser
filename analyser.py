@@ -9,13 +9,18 @@ failed_by_ip = {}
 failed_users_by_ip = {}
 alerts = []
 malformed_logs = 0
+malformed_entries = []
 
 with open("logs/auth.log") as logfile:
-    for line in logfile:
+    for line_number, line in enumerate(logfile, start=1):
         try:
             date, time, event, ip, username = line.split()
         except ValueError:
             malformed_logs += 1
+            malformed_entries.append({
+                "line": line_number,
+                "content": line.strip()
+            })
             continue
 
         if event == "LOGIN_SUCCESS":
