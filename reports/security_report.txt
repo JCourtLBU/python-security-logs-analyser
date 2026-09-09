@@ -9,6 +9,10 @@ Malformed Log Entries: 1
 Login Failure Rate: 76.1%
 Security Alerts: 6
 
+MALFORMED ENTRIES
+-----------------
+Line 23: 2026-09-09 12:04:31 LOGIN_FAILED 192.168.1.55
+
 ALERT SEVERITY
 --------------
 Critical: 3

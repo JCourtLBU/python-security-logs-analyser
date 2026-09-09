@@ -114,8 +114,16 @@ def generate_report():
     report += f"Total Events: {total_events}\n"
     report += f"Malformed Log Entries: {malformed_logs}\n"
     report += f"Login Failure Rate: {failure_rate:.1f}%\n"
-    report += f"Security Alerts: {len(alerts)}\n\n"
+    report += f"Security Alerts: {len(alerts)}\n"
 
+    if malformed_entries:
+        report += "\nMALFORMED ENTRIES\n"
+        report += "-----------------\n"
+
+        for entry in malformed_entries:
+            report += f"Line {entry['line']}: {entry['content']}\n"
+
+    report += "\n"
     report += "ALERT SEVERITY\n"
     report += "--------------\n"
     report += f"Critical: {severity_counts['CRITICAL']}\n"
