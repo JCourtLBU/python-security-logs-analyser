@@ -8,10 +8,15 @@ log_info = {
 failed_by_ip = {}
 failed_users_by_ip = {}
 alerts = []
+malformed_logs = 0
 
 with open("logs/auth.log") as logfile:
     for line in logfile:
-        date, time, event, ip, username = line.split()
+        try:
+            date, time, event, ip, username = line.split()
+        except ValueError:
+            malformed_logs += 1
+            continue
 
         if event == "LOGIN_SUCCESS":
             log_info["login success"] += 1
@@ -102,6 +107,7 @@ def generate_report():
     report += f"Successful Logins: {log_info['login success']}\n"
     report += f"Failed Logins: {log_info['login failed']}\n"
     report += f"Total Events: {total_events}\n"
+    report += f"Malformed Log Entries: {malformed_logs}\n"
     report += f"Login Failure Rate: {failure_rate:.1f}%\n"
     report += f"Security Alerts: {len(alerts)}\n\n"
 
