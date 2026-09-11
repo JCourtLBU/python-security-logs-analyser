@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 log_info = {
     "login success": 0,
@@ -40,25 +40,43 @@ with open("logs/auth.log") as logfile:
 
 def detect_brute_force():
     for ip, times in failed_by_ip.items():
-        if len(times) >= 5:
-            if len(times) >= 10:
-                severity = "CRITICAL"
-            else:
-                severity = "HIGH"
 
-            time_difference = times[-1] - times[0]
-            seconds = time_difference.total_seconds()
+        if len(times) < 5:
+            continue
 
-            if seconds <= 60:
+        for i in range(len(times)):
+            window_start = times[i]
+            window_end = window_start + timedelta(seconds=60)
+
+            attempts_in_window = []
+
+            for time in times[i:]:
+                if time <= window_end:
+                    attempts_in_window.append(time)
+                else:
+                    break
+
+            if len(attempts_in_window) >= 5:
+
+                if len(attempts_in_window) >= 10:
+                    severity = "CRITICAL"
+                else:
+                    severity = "HIGH"
+
                 alerts.append({
                     "type": "Brute Force",
                     "severity": severity,
                     "source_ip": ip,
-                    "attempts": len(times),
-                    "time_window": seconds,
-                    "first_attempt": times[0],
-                    "last_attempt": times[-1]
+                    "attempts": len(attempts_in_window),
+                    "time_window": (
+                            attempts_in_window[-1] - attempts_in_window[0]
+                    ).total_seconds(),
+                    "first_attempt": attempts_in_window[0],
+                    "last_attempt": attempts_in_window[-1]
                 })
+
+                break
+
 
 def detect_password_spraying():
     for ip, usernames in failed_users_by_ip.items():
