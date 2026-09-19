@@ -1,0 +1,59 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+--- 19-09-26 11-59-11 ---
+
+File Path: logs/mixed_activity.log
+
+SUMMARY
+-------
+Successful Logins: 36
+Failed Logins: 50
+Total Events: 86
+Malformed Log Entries: 1
+Login Failure Rate: 58.1%
+Security Alerts: 5
+
+MALFORMED ENTRIES
+-----------------
+Line 86: 2026-09-19 14:10:31 LOGIN_FAILED 192.168.1.116
+
+ALERT SEVERITY
+--------------
+Critical: 0
+High: 5
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.100
+Failed Attempts: 5
+Time Window: 43 seconds
+First Attempt: 13:05:01
+Last Attempt: 13:05:44
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.200
+Failed Attempts: 5
+Time Window: 42 seconds
+First Attempt: 13:07:03
+Last Attempt: 13:07:45
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.210
+Failed Attempts: 5
+Time Window: 32 seconds
+First Attempt: 13:13:31
+Last Attempt: 13:14:03
+
+[HIGH] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.200
+Accounts Targeted: 5
+Accounts: admin, alice, bob, charlie, david
+
+[HIGH] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.210
+Accounts Targeted: 5
+Accounts: admin, alice, bob, charlie, david
+

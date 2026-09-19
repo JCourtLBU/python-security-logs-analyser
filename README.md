@@ -1,4 +1,5 @@
 # Python Security Log Analyser
+#### Jack Court
 
 A Python-based security log analysis tool that parses authentication logs and detects suspicious login activity.
 

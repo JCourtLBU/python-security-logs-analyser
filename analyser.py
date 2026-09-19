@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 # ENTER LOG FILE PATH BELOW:
-logfile_entry = ("logs/auth.log")
+logfile_entry = ("logs/mixed_activity.log")
 
 
 log_info = {
