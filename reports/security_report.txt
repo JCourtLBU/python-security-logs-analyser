@@ -3,11 +3,11 @@
 SUMMARY
 -------
 Successful Logins: 11
-Failed Logins: 45
-Total Events: 56
+Failed Logins: 55
+Total Events: 66
 Malformed Log Entries: 1
-Login Failure Rate: 80.4%
-Security Alerts: 7
+Login Failure Rate: 83.3%
+Security Alerts: 9
 
 MALFORMED ENTRIES
 -----------------
@@ -16,7 +16,7 @@ Line 23: 2026-09-09 12:04:31 LOGIN_FAILED 192.168.1.55
 ALERT SEVERITY
 --------------
 Critical: 3
-High: 4
+High: 6
 Medium: 0
 Low: 0
 
@@ -63,8 +63,20 @@ Time Window: 40 seconds
 First Attempt: 13:00:00
 Last Attempt: 13:00:40
 
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.210
+Failed Attempts: 5
+Time Window: 40 seconds
+First Attempt: 15:00:00
+Last Attempt: 15:00:40
+
 [HIGH] PASSWORD SPRAYING DETECTED
 Source IP: 192.168.1.88
 Accounts Targeted: 5
 Accounts: admin, emily, jack, sarah, tom
+
+[HIGH] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.210
+Accounts Targeted: 5
+Accounts: admin, alice, bob, charlie, dave
 

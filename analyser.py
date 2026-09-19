@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+
 log_info = {
     "login success": 0,
     "login failed": 0,
@@ -7,9 +8,12 @@ log_info = {
 
 failed_by_ip = {}
 failed_users_by_ip = {}
-alerts = []
+
 malformed_logs = 0
 malformed_entries = []
+
+alerts = []
+
 
 with open("logs/auth.log") as logfile:
     for line_number, line in enumerate(logfile, start=1):
@@ -33,10 +37,17 @@ with open("logs/auth.log") as logfile:
 
             if ip in failed_by_ip:
                 failed_by_ip[ip].append(login_time)
-                failed_users_by_ip[ip].append(username)
+                failed_users_by_ip[ip].append({
+                    "username": username,
+                    "time": login_time
+                })
             else:
                 failed_by_ip[ip] = [login_time]
-                failed_users_by_ip[ip] = [username]
+                failed_users_by_ip[ip] = [{
+                    "username": username,
+                    "time": login_time
+                }]
+
 
 def detect_brute_force():
     for ip, times in failed_by_ip.items():
@@ -79,21 +90,42 @@ def detect_brute_force():
 
 
 def detect_password_spraying():
-    for ip, usernames in failed_users_by_ip.items():
-        unique_users = set(usernames)
+    for ip, attempts in failed_users_by_ip.items():
 
-        if len(unique_users) >= 5:
-            if len(unique_users) >= 10:
-                severity = "CRITICAL"
-            else:
-                severity = "HIGH"
-            alerts.append({
-                "type": "Password Spraying",
-                "severity": severity,
-                "source_ip": ip,
-                "accounts_targeted": len(unique_users),
-                "accounts": sorted(unique_users)
-            })
+        if len(attempts) < 5:
+            continue
+
+        for i in range(len(attempts)):
+            window_start = attempts[i]["time"]
+            window_end = window_start + timedelta(seconds=60)
+
+            users_in_window = []
+
+            for attempt in attempts[i:]:
+                if attempt["time"] <= window_end:
+                    users_in_window.append(attempt["username"])
+                else:
+                    break
+
+            unique_users = set(users_in_window)
+
+            if len(unique_users) >= 5:
+
+                if len(unique_users) >= 10:
+                    severity = "CRITICAL"
+                else:
+                    severity = "HIGH"
+
+                alerts.append({
+                    "type": "Password Spraying",
+                    "severity": severity,
+                    "source_ip": ip,
+                    "accounts_targeted": len(unique_users),
+                    "accounts": sorted(unique_users)
+                })
+
+                break
+
 
 def generate_report():
     report = ""
@@ -142,6 +174,7 @@ def generate_report():
             report += f"Line {entry['line']}: {entry['content']}\n"
 
     report += "\n"
+
     report += "ALERT SEVERITY\n"
     report += "--------------\n"
     report += f"Critical: {severity_counts['CRITICAL']}\n"
@@ -175,10 +208,10 @@ def generate_report():
     return report
 
 
-
-
 detect_brute_force()
 detect_password_spraying()
+
 report = generate_report()
+
 with open("reports/security_report.txt", "w") as report_file:
     report_file.write(report)
