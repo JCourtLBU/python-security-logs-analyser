@@ -1,63 +1,86 @@
 # Python Security Log Analyser
 
-A Python-based security log analysis tool that parses authentication logs and identifies potentially suspicious login activity.
+A Python-based security log analysis tool that parses authentication logs and detects suspicious login activity.
 
-The project was built as a practical cybersecurity portfolio project to develop experience with security monitoring, log analysis, attack detection and Python programming.
-
-## Overview
-
-The analyser processes authentication log files containing login events and produces a timestamped security report.
-
-It identifies suspicious behaviour by analysing failed login attempts over time and looking for patterns associated with:
-
-- Brute-force attacks
-- Password-spraying attacks
-- Repeated failed authentication attempts
-
-The analyser also handles malformed log entries and calculates an overall login failure rate.
+Built as a cybersecurity portfolio project to develop practical experience with log analysis, security monitoring and Python.
 
 ## Features
 
 - Parses authentication log files
-- Counts successful and failed login attempts
-- Groups failed logins by source IP address
-- Detects brute-force activity using a 60-second sliding time window
-- Detects password spraying using multiple usernames within a 60-second window
+- Counts successful and failed logins
+- Detects brute-force attacks
+- Detects password-spraying attacks
+- Uses 60-second sliding time windows
 - Assigns `HIGH` and `CRITICAL` severity levels
-- Records malformed log entries without stopping the analysis
-- Calculates the overall login failure rate
+- Handles malformed log entries
+- Calculates login failure rates
 - Generates timestamped security reports
-- Supports different input log files through a configurable file path
+- Supports different input log files
 
 ## Detection Methods
 
 ### Brute Force
 
-A brute-force alert is generated when an IP address produces at least 5 failed login attempts within a 60-second window.
+Detects 5 or more failed login attempts from the same IP within 60 seconds.
 
-Severity is assigned based on the number of attempts:
-
-- 5–9 attempts: `HIGH`
-- 10+ attempts: `CRITICAL`
-
-The analyser uses a sliding time window rather than simply comparing the first and last log entries.
+- 5–9 attempts → `HIGH`
+- 10+ attempts → `CRITICAL`
 
 ### Password Spraying
 
-A password-spraying alert is generated when an IP address attempts to authenticate against at least 5 unique usernames within a 60-second window.
+Detects 5 or more unique usernames targeted by the same IP within 60 seconds.
 
-Severity is assigned based on the number of accounts targeted:
-
-- 5–9 accounts: `HIGH`
-- 10+ accounts: `CRITICAL`
+- 5–9 accounts → `HIGH`
+- 10+ accounts → `CRITICAL`
 
 ## Example
 
 Example input:
 
-```text
-2026-09-19 11:02:15 LOGIN_FAILED 192.168.1.200 admin
-2026-09-19 11:02:24 LOGIN_FAILED 192.168.1.200 emily
-2026-09-19 11:02:36 LOGIN_FAILED 192.168.1.200 jack
-2026-09-19 11:02:48 LOGIN_FAILED 192.168.1.200 sarah
-2026-09-19 11:02:59 LOGIN_FAILED 192.168.1.200 tom
+    2026-09-19 11:02:15 LOGIN_FAILED 192.168.1.200 admin
+    2026-09-19 11:02:24 LOGIN_FAILED 192.168.1.200 emily
+    2026-09-19 11:02:36 LOGIN_FAILED 192.168.1.200 jack
+    2026-09-19 11:02:48 LOGIN_FAILED 192.168.1.200 sarah
+    2026-09-19 11:02:59 LOGIN_FAILED 192.168.1.200 tom
+
+This is detected as password spraying because one IP targets five different accounts within 60 seconds.
+
+Example alert:
+
+    [HIGH] PASSWORD SPRAYING DETECTED
+    Source IP: 192.168.1.200
+    Accounts Targeted: 5
+    Accounts: admin, emily, jack, sarah, tom
+
+## How to Run
+
+Set the log file you want to analyse in `analyser.py`:
+
+    log_file_path = "logs/mixed_activity.log"
+
+Run `analyser.py`.
+
+A timestamped security report will be created in the `reports/` directory.
+
+## Project Structure
+
+    python-security-logs-analyser/
+    ├── analyser.py
+    ├── logs/
+    │   ├── auth.log
+    │   ├── normal_activity.log
+    │   ├── small_brute_force.log
+    │   ├── password_spraying.log
+    │   ├── large_attack.log
+    │   └── mixed_activity.log
+    ├── reports/
+    └── README.md
+
+## Technologies
+
+- Python
+- Log parsing
+- `datetime`
+- Dictionaries, lists and sets
+- Time-window based detection
+- Security monitoring concepts
