@@ -1,0 +1,43 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+--- 19-09-26 11-47-49 ---
+
+File Path: logs/large_attack.log
+
+SUMMARY
+-------
+Successful Logins: 5
+Failed Logins: 23
+Total Events: 28
+Malformed Log Entries: 0
+Login Failure Rate: 82.1%
+Security Alerts: 3
+
+ALERT SEVERITY
+--------------
+Critical: 3
+High: 0
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+[CRITICAL] BRUTE FORCE DETECTED
+Source IP: 192.168.1.150
+Failed Attempts: 11
+Time Window: 30 seconds
+First Attempt: 12:01:02
+Last Attempt: 12:01:32
+
+[CRITICAL] BRUTE FORCE DETECTED
+Source IP: 192.168.1.210
+Failed Attempts: 11
+Time Window: 60 seconds
+First Attempt: 12:04:01
+Last Attempt: 12:05:01
+
+[CRITICAL] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.210
+Accounts Targeted: 11
+Accounts: admin, alice, bob, charlie, david, emily, frank, george, hannah, jack, sarah
+

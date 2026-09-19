@@ -1,0 +1,31 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+--- 19-09-26 11-49-28 ---
+
+File Path: logs/small_brute_force.log
+
+SUMMARY
+-------
+Successful Logins: 4
+Failed Logins: 5
+Total Events: 9
+Malformed Log Entries: 0
+Login Failure Rate: 55.6%
+Security Alerts: 1
+
+ALERT SEVERITY
+--------------
+Critical: 0
+High: 1
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.100
+Failed Attempts: 5
+Time Window: 41 seconds
+First Attempt: 10:05:00
+Last Attempt: 10:05:41
+

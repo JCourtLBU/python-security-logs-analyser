@@ -1,0 +1,36 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+--- 19-09-26 11-49-14 ---
+
+File Path: logs/password_spraying.log
+
+SUMMARY
+-------
+Successful Logins: 3
+Failed Logins: 5
+Total Events: 8
+Malformed Log Entries: 0
+Login Failure Rate: 62.5%
+Security Alerts: 2
+
+ALERT SEVERITY
+--------------
+Critical: 0
+High: 2
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+[HIGH] BRUTE FORCE DETECTED
+Source IP: 192.168.1.200
+Failed Attempts: 5
+Time Window: 44 seconds
+First Attempt: 11:02:15
+Last Attempt: 11:02:59
+
+[HIGH] PASSWORD SPRAYING DETECTED
+Source IP: 192.168.1.200
+Accounts Targeted: 5
+Accounts: admin, emily, jack, sarah, tom
+

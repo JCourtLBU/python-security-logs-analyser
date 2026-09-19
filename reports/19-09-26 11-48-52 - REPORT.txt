@@ -1,0 +1,25 @@
+--- SECURITY LOG ANALYSIS REPORT ---
+--- 19-09-26 11-48-52 ---
+
+File Path: logs/normal_activity.log
+
+SUMMARY
+-------
+Successful Logins: 7
+Failed Logins: 3
+Total Events: 10
+Malformed Log Entries: 0
+Login Failure Rate: 30.0%
+Security Alerts: 0
+
+ALERT SEVERITY
+--------------
+Critical: 0
+High: 0
+Medium: 0
+Low: 0
+
+SECURITY ALERTS
+---------------
+
+No security alerts detected.

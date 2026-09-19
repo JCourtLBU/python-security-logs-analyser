@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 # ENTER LOG FILE PATH BELOW:
-logfile_entry = "logs/auth.log"
+logfile_entry = ("logs/auth.log")
 
 
 log_info = {
@@ -163,8 +163,11 @@ def generate_report():
         failure_rate = (log_info["login failed"] / total_events) * 100
     else:
         failure_rate = 0
+    timestamp = datetime.now().strftime("%d-%m-%y %H-%M-%S")
+    report += "--- SECURITY LOG ANALYSIS REPORT ---\n"
+    report += f"--- {timestamp} ---\n\n"
 
-    report += "--- SECURITY LOG ANALYSIS REPORT ---\n\n"
+    report += f"File Path: {logfile_entry}\n\n"
 
     report += "SUMMARY\n"
     report += "-------\n"
@@ -224,7 +227,10 @@ def main():
 
     report = generate_report()
 
-    with open("reports/security_report.txt", "w") as report_file:
+    timestamp = datetime.now().strftime("%d-%m-%y %H-%M-%S")
+    report_file_path = f"reports/{timestamp} - REPORT.txt"
+
+    with open(report_file_path, "w") as report_file:
         report_file.write(report)
 
 
