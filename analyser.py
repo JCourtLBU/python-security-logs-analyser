@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta
 
+# ENTER LOG FILE PATH BELOW:
+logfile_entry = "logs/auth.log"
+
 
 log_info = {
     "login success": 0,
@@ -14,40 +17,42 @@ malformed_entries = []
 
 alerts = []
 
+def parse_logs(log_file_path):
 
-with open("logs/auth.log") as logfile:
-    for line_number, line in enumerate(logfile, start=1):
-        try:
-            date, time, event, ip, username = line.split()
-        except ValueError:
-            malformed_logs += 1
-            malformed_entries.append({
-                "line": line_number,
-                "content": line.strip()
-            })
-            continue
+    global log_info, failed_by_ip, failed_users_by_ip, malformed_logs, malformed_entries
 
-        if event == "LOGIN_SUCCESS":
-            log_info["login success"] += 1
-
-        elif event == "LOGIN_FAILED":
-            log_info["login failed"] += 1
-
-            login_time = datetime.strptime(time, "%H:%M:%S")
-
-            if ip in failed_by_ip:
-                failed_by_ip[ip].append(login_time)
-                failed_users_by_ip[ip].append({
-                    "username": username,
-                    "time": login_time
+    with open(log_file_path) as logfile:
+        for line_number, line in enumerate(logfile, start=1):
+            try:
+                date, time, event, ip, username = line.split()
+            except ValueError:
+                malformed_logs += 1
+                malformed_entries.append({
+                    "line": line_number,
+                    "content": line.strip()
                 })
-            else:
-                failed_by_ip[ip] = [login_time]
-                failed_users_by_ip[ip] = [{
-                    "username": username,
-                    "time": login_time
-                }]
+                continue
 
+            if event == "LOGIN_SUCCESS":
+                log_info["login success"] += 1
+
+            elif event == "LOGIN_FAILED":
+                log_info["login failed"] += 1
+
+                login_time = datetime.strptime(time, "%H:%M:%S")
+
+                if ip in failed_by_ip:
+                    failed_by_ip[ip].append(login_time)
+                    failed_users_by_ip[ip].append({
+                        "username": username,
+                        "time": login_time
+                    })
+                else:
+                    failed_by_ip[ip] = [login_time]
+                    failed_users_by_ip[ip] = [{
+                        "username": username,
+                        "time": login_time
+                    }]
 
 def detect_brute_force():
     for ip, times in failed_by_ip.items():
@@ -211,11 +216,17 @@ def generate_report():
 
     return report
 
+def main():
+    parse_logs(logfile_entry)
 
-detect_brute_force()
-detect_password_spraying()
+    detect_brute_force()
+    detect_password_spraying()
 
-report = generate_report()
+    report = generate_report()
 
-with open("reports/security_report.txt", "w") as report_file:
-    report_file.write(report)
+    with open("reports/security_report.txt", "w") as report_file:
+        report_file.write(report)
+
+
+if __name__ == "__main__":
+    main()
