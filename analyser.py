@@ -153,7 +153,11 @@ def generate_report():
     )
 
     total_events = log_info["login success"] + log_info["login failed"]
-    failure_rate = (log_info["login failed"] / total_events) * 100
+
+    if total_events > 0:
+        failure_rate = (log_info["login failed"] / total_events) * 100
+    else:
+        failure_rate = 0
 
     report += "--- SECURITY LOG ANALYSIS REPORT ---\n\n"
 
